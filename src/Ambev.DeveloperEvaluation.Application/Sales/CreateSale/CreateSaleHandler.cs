@@ -57,7 +57,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 
         var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
 
-        //TODO implement send noifications
+        //TODO implement send notifications
 
         _logger.LogInformation("Sale with number {SaleNumber} created successfully", createdSale.SaleNumber);
 

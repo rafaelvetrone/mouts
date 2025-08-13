@@ -133,7 +133,7 @@ public class SalesController : BaseController
     [ProducesResponseType(typeof(ApiResponseWithData<GetSaleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> ListSales([FromQuery] SaleFilter filter, CancellationToken cancellationToken)
+    public async Task<IActionResult> ListSales([FromQuery] SaleFilterRequest filter, CancellationToken cancellationToken)
     {
         var validator = new SaleFilterValidator();
         var validationResult = await validator.ValidateAsync(filter, cancellationToken);
@@ -141,7 +141,7 @@ public class SalesController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<ListSaleCommand>(filter);
+        var command = _mapper.Map<ListSalesCommand>(filter);
         var response = await _mediator.Send(command, cancellationToken);
 
         return Ok(new ApiResponseWithData<GetSaleResponse>

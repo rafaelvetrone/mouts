@@ -32,7 +32,7 @@ public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleRe
     /// <param name="request">The DeleteSale command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the delete operation</returns>
-    public async Task<DeleteSaleResponse> Handle(DeleteSAleCommand request, CancellationToken cancellationToken)
+    public async Task<DeleteSaleResponse> Handle(DeleteSaleCommand request, CancellationToken cancellationToken)
     {
         var validator = new DeleteSaleValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -47,6 +47,6 @@ public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleRe
 
         _logger.LogInformation($"Sale with ID {request.Id} deleted successfully");
 
-        return new DeleteUserResponse { Success = true };
+        return new DeleteSaleResponse { Success = true };
     }
 }

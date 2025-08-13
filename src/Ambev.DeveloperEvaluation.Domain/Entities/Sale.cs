@@ -15,6 +15,8 @@ public class Sale : BaseEntity
     private readonly List<SaleItem> _items = new();
     public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
 
+    private Sale() { } // EF Core
+
     public Sale(string saleNumber, DateTime saleDate, string customerId, string customerName, string customerEmail, string branch)
     {
         Id = Guid.NewGuid();
@@ -29,12 +31,45 @@ public class Sale : BaseEntity
 
     public void AddItem(string productId, string productName, int quantity, decimal unitPrice)
     {
-        var item = new SaleItem(productId, productName, quantity, unitPrice);
+        var item = new SaleItem(this, productId, productName, quantity, unitPrice);
         _items.Add(item);
     }
 
     public void Cancel()
     {
         IsCancelled = true;
+    }
+
+    public void UpdateDetails(string saleNumber, DateTime saleDate, string customerId,
+                              string customerName, string customerEmail, string branch, bool isCancelled)
+    {
+        SaleNumber = saleNumber;
+        SaleDate = saleDate;
+        CustomerId = customerId;
+        CustomerName = customerName;
+        CustomerEmail = customerEmail;
+        Branch = branch;
+        IsCancelled = isCancelled;
+    }
+
+    public void UpdateItem(SaleItem updatedItem)
+    {
+        var existingItem = _items.FirstOrDefault(i => i.Id == updatedItem.Id);
+        if (existingItem != null)
+        {
+            existingItem.Update(updatedItem.ProductId, updatedItem.ProductName,
+                                updatedItem.Quantity, updatedItem.UnitPrice);
+        }
+        else
+        {
+            AddItem(updatedItem.ProductId, updatedItem.ProductName, updatedItem.Quantity, updatedItem.UnitPrice);
+        }
+    }
+
+    public void RemoveItem(Guid itemId)
+    {
+        var item = _items.FirstOrDefault(i => i.Id == itemId);
+        if (item != null)
+            _items.Remove(item);
     }
 }
