@@ -3,6 +3,8 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.Extensions.Logging;
+using Ambev.DeveloperEvaluation.Application.Sales.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.ListSales;
 
@@ -39,18 +41,18 @@ public class ListSalesHandler : IRequestHandler<ListSalesCommand, IEnumerable<Ge
     /// <returns>The sale details if found</returns>
     public async Task<IEnumerable<GetSaleResult>> Handle(ListSalesCommand request, CancellationToken cancellationToken)
     {
-        var validator = new GetSaleValidator();
+        var validator = new ListSalesValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var user = await _saleRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (user == null)
-            throw new KeyNotFoundException($"Sale with ID {request.Id} not found");
+        var saleFilter = _mapper.Map<SaleFilter>(request);
+
+        var sales = await _saleRepository.ListAsync(saleFilter, cancellationToken);        
 
         _logger.LogInformation("Returning Sales with filters {@request}", request);
 
-        return _mapper.Map<GetSaleResult>(user);
+        return _mapper.Map<IEnumerable<GetSaleResult>>(sales);
     }
 }

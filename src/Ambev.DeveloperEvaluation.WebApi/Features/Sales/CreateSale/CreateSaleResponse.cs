@@ -1,4 +1,6 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Sales.Common;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 
 /// <summary>
 /// API response model for CreateSale operation

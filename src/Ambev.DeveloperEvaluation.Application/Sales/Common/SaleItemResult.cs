@@ -1,14 +1,14 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
+﻿namespace Ambev.DeveloperEvaluation.Application.Sales.Common;
 
 /// <summary>
-/// API Response model for an item in a sale, including product details and quantity.
+/// Response model for SaleItem in GetSale or ListSales operation
 /// </summary>
-public class SaleItemResponse
+public class SaleItemResult
 {
     /// <summary>
     /// The unique identifier for the product associated with the sale item.
     /// </summary>
-    public string ProductId { get; set; } = string.Empty;
+    public Guid ProductId { get; set; }
 
     /// <summary>
     /// The name of the product associated with the sale item.

@@ -18,6 +18,9 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
                .HasDefaultValueSql("gen_random_uuid()");
 
         // Properties
+        builder.Property(si => si.ProductId)
+               .IsRequired();
+
         builder.Property(si => si.ProductName)
                .IsRequired()
                .HasMaxLength(100);
@@ -45,6 +48,5 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
 
         // Optional: Indexes
         builder.HasIndex(si => si.SaleId);
-        builder.HasIndex(si => si.ProductName);
     }
 }

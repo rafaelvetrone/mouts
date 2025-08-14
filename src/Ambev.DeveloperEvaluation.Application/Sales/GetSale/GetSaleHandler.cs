@@ -3,6 +3,7 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.Extensions.Logging;
+using Ambev.DeveloperEvaluation.Application.Sales.Common;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 

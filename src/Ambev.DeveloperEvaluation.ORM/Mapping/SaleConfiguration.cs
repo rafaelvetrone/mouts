@@ -38,10 +38,6 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
                .IsRequired()
                .HasMaxLength(100);
 
-        builder.Property(s => s.TotalAmount)
-               .IsRequired()
-               .HasColumnType("decimal(18,2)");
-
         builder.Property(s => s.IsCancelled)
                .IsRequired()
                .HasDefaultValue(false);

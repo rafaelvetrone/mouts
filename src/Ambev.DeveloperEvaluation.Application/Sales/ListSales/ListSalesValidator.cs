@@ -41,7 +41,7 @@ public class ListSalesValidator : AbstractValidator<ListSalesCommand>
 
     private bool BeValidOrderFields(string orderString)
     {
-        var validFields = new[] { "saleNumber", "branch", "customerName", "initialDate", "endDate" };
+        var validFields = new[] { "salenumber", "branch", "customername", "saledate" };
         var fields = orderString.Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(part => part.Trim().Split(' ')[0].ToLower());
 

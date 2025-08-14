@@ -3,8 +3,8 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Common.Security;
 using Microsoft.Extensions.Logging;
+using Ambev.DeveloperEvaluation.Application.Sales.Common;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
@@ -15,6 +15,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
     private readonly ILogger<CreateSaleHandler> _logger;
 
     /// <summary>
@@ -22,11 +23,13 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     /// </summary>
     /// <param name="saleRepository">The sale repository</param>
     /// <param name="mapper">The AutoMapper instance</param>    
-    /// <param name="logger">The Logger instance</param>    
-    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, ILogger<CreateSaleHandler> logger)
+    /// <param name="mediator">The Logger instance</param>
+    /// <param name="logger">The Logger instance</param>
+    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, IMediator mediator, ILogger<CreateSaleHandler> logger)
     {
         _saleRepository = saleRepository;
         _mapper = mapper;
+        _mediator = mediator;
         _logger = logger;
     }
 
@@ -50,14 +53,21 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 
         var sale = _mapper.Map<Sale>(command);
 
-        if(command.IsCancelled)
+        // Map items separately (to handle AddItem logic or domain rules)
+        var items = _mapper.Map<List<SaleItem>>(command.Items);
+        foreach (var item in items)
+        {
+            sale.AddItem(item.ProductId, item.ProductName, item.Quantity, item.UnitPrice);
+        }
+
+        if (command.IsCancelled)
         {
             sale.Cancel();
         }
 
         var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
 
-        //TODO implement send notifications
+        await SalesEventsDispatcher.DispatchAsync(sale, _mediator, cancellationToken);
 
         _logger.LogInformation("Sale with number {SaleNumber} created successfully", createdSale.SaleNumber);
 

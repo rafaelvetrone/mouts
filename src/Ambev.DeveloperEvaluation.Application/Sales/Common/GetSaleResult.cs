@@ -1,4 +1,4 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Sales;
+﻿namespace Ambev.DeveloperEvaluation.Application.Sales.Common;
 
 /// <summary>
 /// Response model for GetSale operation

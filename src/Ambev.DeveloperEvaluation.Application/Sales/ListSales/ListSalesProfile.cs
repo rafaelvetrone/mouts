@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using Ambev.DeveloperEvaluation.Application.Sales.Common;
+using Ambev.DeveloperEvaluation.Application.Sales.ListSales;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 
@@ -13,6 +15,6 @@ public class ListSalesProfile : Profile
     /// </summary>
     public ListSalesProfile()
     {
-        
+        CreateMap<ListSalesCommand, SaleFilter>();
     }
 }

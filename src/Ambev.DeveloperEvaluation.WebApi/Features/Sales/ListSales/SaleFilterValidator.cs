@@ -42,7 +42,7 @@ public class SaleFilterValidator : AbstractValidator<SaleFilterRequest>
 
     private bool BeValidOrderFields(string orderString)
     {
-        var validFields = new[] { "saleNumber", "branch", "customerName", "initialDate", "endDate" };
+        var validFields = new[] { "saleNumber", "branch", "customerName", "saleDate" };
         var fields = orderString.Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(part => part.Trim().Split(' ')[0].ToLower());
 

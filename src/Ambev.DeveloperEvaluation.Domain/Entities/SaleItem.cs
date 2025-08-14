@@ -4,7 +4,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
 public class SaleItem : BaseEntity
 {
-    public string ProductId { get; private set; }
+    public Guid ProductId { get; private set; }
     public string ProductName { get; private set; }
     public int Quantity { get; private set; }
     public decimal UnitPrice { get; private set; }
@@ -14,7 +14,7 @@ public class SaleItem : BaseEntity
     public Guid SaleId { get; private set; } // FK to Sale
     public Sale Sale { get; private set; }    // Navigation property
 
-    public SaleItem(string productId, string productName, int quantity, decimal unitPrice)
+    public SaleItem(Guid productId, string productName, int quantity, decimal unitPrice)
     {
         if (quantity > 20)
             throw new DomainException("Cannot sell more than 20 identical items.");
@@ -27,7 +27,7 @@ public class SaleItem : BaseEntity
         TotalAmount = (unitPrice * quantity) - Discount;
     }
 
-    public SaleItem(Sale sale, string productId, string productName, int quantity, decimal unitPrice)
+    public SaleItem(Sale sale, Guid productId, string productName, int quantity, decimal unitPrice)
     : this(productId, productName, quantity, unitPrice)
     {
         Sale = sale ?? throw new ArgumentNullException(nameof(sale));
@@ -43,9 +43,8 @@ public class SaleItem : BaseEntity
         throw new DomainException("Invalid quantity for discount calculation.");
     }
 
-    public void Update(string productId, string productName, int quantity, decimal unitPrice)
+    public void Update(string productName, int quantity, decimal unitPrice)
     {
-        ProductId = productId;
         ProductName = productName;
         Quantity = quantity;
         UnitPrice = unitPrice;

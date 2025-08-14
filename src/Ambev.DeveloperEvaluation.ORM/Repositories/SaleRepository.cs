@@ -94,7 +94,7 @@ public class SaleRepository : ISaleRepository
         // Remove items that were deleted
         foreach (var dbItem in existingSale.Items.ToList())
         {
-            if (!sale.Items.Any(i => i.Id == dbItem.Id))
+            if (!sale.Items.Any(i => i.ProductId == dbItem.ProductId))
                 existingSale.RemoveItem(dbItem.Id);
         }
 

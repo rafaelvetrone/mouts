@@ -1,13 +1,12 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
-using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Domain.Events;
 
-public class SaleItemCancelledEvent : INotification
+public class ItemCancelledDomainEvent : IDomainEvent
 {
     public SaleItem SaleItem { get; }
 
-    public SaleItemCancelledEvent(SaleItem saleItem)
+    public ItemCancelledDomainEvent(SaleItem saleItem)
     {
         SaleItem = saleItem;
     }

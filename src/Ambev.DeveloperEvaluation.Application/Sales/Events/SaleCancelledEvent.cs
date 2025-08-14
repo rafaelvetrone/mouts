@@ -1,7 +1,8 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Domain.Events;
+
+namespace Ambev.DeveloperEvaluation.Application.Sales.Events;
 
 public class SaleCancelledEvent : INotification
 {

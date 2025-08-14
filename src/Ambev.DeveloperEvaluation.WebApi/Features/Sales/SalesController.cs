@@ -130,7 +130,7 @@ public class SalesController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The user details if found</returns>
     [HttpGet]
-    [ProducesResponseType(typeof(ApiResponseWithData<GetSaleResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginatedResponse<GetSaleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> ListSales([FromQuery] SaleFilterRequest filter, CancellationToken cancellationToken)
@@ -144,39 +144,40 @@ public class SalesController : BaseController
         var command = _mapper.Map<ListSalesCommand>(filter);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<GetSaleResponse>
+        return Ok(new PaginatedResponse<GetSaleResponse>
         {
             Success = true,
             Message = "Sales retrieved successfully",
-            Data = _mapper.Map<GetSaleResponse>(response)
+            Data = _mapper.Map<IEnumerable<GetSaleResponse>>(response)
         });
     }
 
     /// <summary>
-    /// Creates a new sale
+    /// Updates a sale
     /// </summary>
-    /// <param name="request">The sale creation request</param>
+    /// <param name="request">The sale update request</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The created sale details</returns>
+    /// <returns>The updated sale</returns>
     [HttpPut("{id}")]
-    [ProducesResponseType(typeof(ApiResponseWithData<CreateUserResponse>), StatusCodes.)]
+    [ProducesResponseType(typeof(ApiResponseWithData<UpdateSaleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateSale([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateSale([FromRoute] Guid id, [FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
     {
-        var validator = new CreateUserRequestValidator();
+        var validator = new UpdateSaleRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<CreateUserCommand>(request);
+        var command = _mapper.Map<UpdateSaleCommand>(request);
+        command.Id = id;  // Set the id from the route
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Created(string.Empty, new ApiResponseWithData<CreateUserResponse>
+        return Ok(new ApiResponseWithData<UpdateSaleResponse>
         {
             Success = true,
-            Message = "User created successfully",
-            Data = _mapper.Map<CreateUserResponse>(response)
+            Message = "Sale updated successfully",
+            Data = _mapper.Map<UpdateSaleResponse>(response)
         });
     }
 }

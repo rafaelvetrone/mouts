@@ -1,4 +1,6 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Sales.Common;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 
 /// <summary>
 /// API response model for GetSale operation
