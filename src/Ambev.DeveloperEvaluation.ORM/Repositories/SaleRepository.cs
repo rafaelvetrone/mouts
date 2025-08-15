@@ -115,20 +115,7 @@ public class SaleRepository : ISaleRepository
         var query = _context.Sales.Include(s => s.Items).AsQueryable();
 
         // Filtering
-        if (!string.IsNullOrWhiteSpace(filter.SaleNumber))
-            query = query.Where(s => s.SaleNumber.Equals(filter.SaleNumber));
-
-        if (!string.IsNullOrWhiteSpace(filter.CustomerName))
-            query = query.Where(s => s.CustomerName.Equals(filter.CustomerName));
-
-        if (!string.IsNullOrWhiteSpace(filter.Branch))
-            query = query.Where(s => s.Branch.Equals(filter.Branch));
-
-        if (filter.InitialDate != default)
-            query = query.Where(s => s.SaleDate >= filter.InitialDate);
-
-        if (filter.EndDate != default)
-            query = query.Where(s => s.SaleDate <= filter.EndDate);
+        query = ApplyFilter(query, filter);
 
         // Ordering
         if (!string.IsNullOrWhiteSpace(filter.Order))
@@ -141,5 +128,42 @@ public class SaleRepository : ISaleRepository
         return await query.ToListAsync(cancellationToken);
     }
 
+    public async Task<int> CountAsync(SaleFilter filter, CancellationToken cancellationToken = default)
+    {
+        var query = _context.Sales.Include(s => s.Items).AsQueryable();
+
+        // Filtering
+        query = ApplyFilter(query, filter);
+
+        // Ordering
+        if (!string.IsNullOrWhiteSpace(filter.Order))
+            query = query.OrderBy(filter.Order); // Using System.Linq.Dynamic.Core
+
+        // Pagination
+        int skip = (filter.Page - 1) * filter.Size;
+        query = query.Skip(skip).Take(filter.Size);
+
+        return await query.CountAsync(cancellationToken);
+    }
+
+    private IQueryable<Sale> ApplyFilter(IQueryable<Sale> query, SaleFilter filter)
+    {
+        if (!string.IsNullOrWhiteSpace(filter.SaleNumber))
+            query = query.Where(s => s.SaleNumber == filter.SaleNumber);
+
+        if (!string.IsNullOrWhiteSpace(filter.CustomerName))
+            query = query.Where(s => s.CustomerName == filter.CustomerName);
+
+        if (!string.IsNullOrWhiteSpace(filter.Branch))
+            query = query.Where(s => s.Branch == filter.Branch);
+
+        if (filter.InitialDate.HasValue)
+            query = query.Where(s => s.SaleDate >= filter.InitialDate);
+
+        if (filter.EndDate.HasValue)
+            query = query.Where(s => s.SaleDate <= filter.EndDate);
+        
+        return query;
+    }
 
 }

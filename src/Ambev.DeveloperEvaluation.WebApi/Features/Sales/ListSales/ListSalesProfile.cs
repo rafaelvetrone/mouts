@@ -17,5 +17,7 @@ public class ListSaleProfile : Profile
             .ForMember(dest => dest.Page, opt => opt.MapFrom(src => src._page))
             .ForMember(dest => dest.Size, opt => opt.MapFrom(src => src._size))
             .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src._order));
+
+        CreateMap<PagedSalesResult, PagedSalesResponse>();
     }
 }

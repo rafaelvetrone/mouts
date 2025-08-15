@@ -12,12 +12,31 @@ using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
 
-public class Program
+public partial class Program
 {
     public static void Main(string[] args)
     {
         try
         {
+            var app = CreateWebApplication(args);
+            app.Run();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Application terminated unexpectedly");
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
+    }
+
+    // This method allows WebApplicationFactory to create the app without running it
+    public static WebApplication CreateWebApplication(string[]? args = null)
+    {
+        try
+        {
+            Console.WriteLine("Creating WebApplication..."); // <-- debug
             Log.Information("Starting web application");
 
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -58,7 +77,10 @@ public class Program
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<DefaultContext>();
-                db.Database.Migrate();
+                if (db.Database.IsRelational())
+                {
+                    db.Database.Migrate();
+                }
             }
 
             app.UseMiddleware<ValidationExceptionMiddleware>();
@@ -78,15 +100,12 @@ public class Program
 
             app.MapControllers();
 
-            app.Run();
+            return app;
         }
         catch (Exception ex)
         {
-            Log.Fatal(ex, "Application terminated unexpectedly");
-        }
-        finally
-        {
-            Log.CloseAndFlush();
+            Console.WriteLine($"Error building WebApplication: {ex}");
+            throw;
         }
     }
 }

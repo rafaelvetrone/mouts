@@ -1,14 +1,15 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
-using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.ListSales;
+using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.ListSales;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -86,12 +87,7 @@ public class SalesController : BaseController
         var command = _mapper.Map<GetSaleCommand>(request.Id);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<GetSaleResponse>
-        {
-            Success = true,
-            Message = "Sale retrieved successfully",
-            Data = _mapper.Map<GetSaleResponse>(response)
-        });
+        return Ok(_mapper.Map<GetSaleResponse>(response));
     }
 
     /// <summary>
@@ -116,11 +112,7 @@ public class SalesController : BaseController
         var command = _mapper.Map<DeleteSaleCommand>(request.Id);
         await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse
-        {
-            Success = true,
-            Message = "Sale deleted successfully"
-        });
+        return Ok<object>(null);
     }
 
     /// <summary>
@@ -144,12 +136,7 @@ public class SalesController : BaseController
         var command = _mapper.Map<ListSalesCommand>(filter);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new PaginatedResponse<GetSaleResponse>
-        {
-            Success = true,
-            Message = "Sales retrieved successfully",
-            Data = _mapper.Map<IEnumerable<GetSaleResponse>>(response)
-        });
+        return Ok(_mapper.Map<PagedSalesResponse>(response));
     }
 
     /// <summary>

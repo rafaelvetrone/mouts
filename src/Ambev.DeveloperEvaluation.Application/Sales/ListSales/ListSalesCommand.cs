@@ -7,14 +7,14 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.ListSales;
 /// <summary>
 /// Command for retrieving a sale by a filter.
 /// </summary>
-public class ListSalesCommand : IRequest<IEnumerable<GetSaleResult>>
+public class ListSalesCommand : IRequest<PagedSalesResult>
 {
     // Filtering
     public string? SaleNumber { get; set; }
     public string? Branch { get; set; }
     public string? CustomerName { get; set; }
-    public DateTime InitialDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime? InitialDate { get; set; }
+    public DateTime? EndDate { get; set; }
 
 
     // Pagination

@@ -1,0 +1,23 @@
+{
+  "saleNumber": "SALE-20250815-001",
+  "saleDate": "2025-08-14T15:30:00.0000000Z",
+  "customerId": "CUST-123456",
+  "customerName": "Jane Doe",
+  "customerEmail": "jane.doe@example.com",
+  "branch": "BR001",
+  "isCancelled": false,
+  "items": [
+    {
+      "productId": "1f2d6c0b-1234-4f56-9876-abcdef123456",
+      "productName": "Premium Coffee Beans",
+      "quantity": 2,
+      "unitPrice": 15.50
+    },
+    {
+      "productId": "8e6a95d3-5678-4bcd-a321-9876543210ab",
+      "productName": "Espresso Machine",
+      "quantity": 1,
+      "unitPrice": 499.99
+    }
+  ]
+}

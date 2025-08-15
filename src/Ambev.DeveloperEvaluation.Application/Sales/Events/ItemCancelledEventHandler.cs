@@ -21,7 +21,7 @@ public class ItemCancelledEventHandler : INotificationHandler<ItemCancelledEvent
             eventType = Constants.ItemCancelledEventType,
             data = new 
             { 
-                notification.SaleItem.Sale.Id,
+                notification.SaleItem.SaleId,
                 notification.SaleItem.ProductId, 
                 notification.SaleItem.Quantity, 
                 notification.SaleItem.UnitPrice, 

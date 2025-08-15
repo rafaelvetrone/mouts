@@ -13,7 +13,7 @@ public class Sale : BaseEntity
     public string CustomerEmail { get; private set; }
 
     [NotMapped]
-    public decimal TotalAmount => Items.Sum(i => i.TotalAmount);
+    public decimal TotalAmount => Items.Sum(i => i.TotalPrice);
     public string Branch { get; private set; }
     public bool IsCancelled { get; private set; }
     private readonly List<SaleItem> _items = new();

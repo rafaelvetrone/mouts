@@ -9,7 +9,7 @@ public class SaleItem : BaseEntity
     public int Quantity { get; private set; }
     public decimal UnitPrice { get; private set; }
     public decimal Discount { get; private set; }
-    public decimal TotalAmount { get; private set; }
+    public decimal TotalPrice { get; private set; }
 
     public Guid SaleId { get; private set; } // FK to Sale
     public Sale Sale { get; private set; }    // Navigation property
@@ -24,7 +24,7 @@ public class SaleItem : BaseEntity
         Quantity = quantity;
         UnitPrice = unitPrice;
         Discount = CalculateDiscount(quantity, unitPrice);
-        TotalAmount = (unitPrice * quantity) - Discount;
+        TotalPrice = (unitPrice * quantity) - Discount;
     }
 
     public SaleItem(Sale sale, Guid productId, string productName, int quantity, decimal unitPrice)
@@ -48,5 +48,7 @@ public class SaleItem : BaseEntity
         ProductName = productName;
         Quantity = quantity;
         UnitPrice = unitPrice;
+        Discount = CalculateDiscount(quantity, unitPrice);
+        TotalPrice = (unitPrice * quantity) - Discount;
     }
 }

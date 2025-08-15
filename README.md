@@ -49,3 +49,18 @@ dotnet test
 ```bash
 docker-compose up --build
 ```
+
+Or using Visual Studio start with Docker Compose
+
+To view Kafka, go to  localhost:8085
+
+### Test results
+
+![Screenshot 1](testData/Sales_1_Created.PNG)
+![Screenshot 2](testData/Sales_2_Kafka_Created.PNG)
+![Screenshot 3](testData/Sales_3_Get.PNG)
+![Screenshot 4](testData/Sales_4_Updated.PNG)
+![Screenshot 5](testData/Sales_5_Get_Updated_Cancelled.PNG)
+![Screenshot 6](testData/Sales_6_Kafka_Cancelled.PNG)
+![Screenshot 7](testData/Sales_7_Deleted.PNG)
+![Screenshot 8](testData/Sales_8_Kafka_Deleted_Cancelled.PNG)

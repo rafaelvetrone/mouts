@@ -54,4 +54,12 @@ public interface ISaleRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The list of sales</returns>
     Task<List<Sale>> ListAsync(SaleFilter filter, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Counts a list of sales based on the provided filter
+    /// </summary>
+    /// <param name="filter">The filter to apply</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The list of sales</returns>
+    Task<int> CountAsync(SaleFilter filter, CancellationToken cancellationToken = default);
 }

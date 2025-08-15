@@ -57,7 +57,7 @@ public class ListSalesHandlerTests
         var listSalesResult = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.Same(mappedResults, listSalesResult);
+        Assert.Same(mappedResults, listSalesResult.Items);
         await _saleRepository.Received(1).ListAsync(saleFilter, Arg.Any<CancellationToken>());
         _mapper.Received(1).Map<SaleFilter>(command);
         _mapper.Received(1).Map<IEnumerable<GetSaleResult>>(salesFromRepo);
@@ -100,6 +100,6 @@ public class ListSalesHandlerTests
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.Empty(result);
+        Assert.Empty(result.Items);
     }
 }

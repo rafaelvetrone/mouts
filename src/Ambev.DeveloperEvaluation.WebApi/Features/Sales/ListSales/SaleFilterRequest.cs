@@ -9,8 +9,8 @@ public class SaleFilterRequest
     public string? saleNumber { get; set; }
     public string? branch { get; set; }
     public string? customerName { get; set; }
-    public DateTime initialDate { get; set; }
-    public DateTime endDate { get; set; }
+    public DateTime? initialDate { get; set; }
+    public DateTime? endDate { get; set; }
 
 
     // Pagination

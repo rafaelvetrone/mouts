@@ -23,14 +23,10 @@ namespace Ambev.DeveloperEvaluation.WebApi.Middleware
             catch (ValidationException ex)
             {
                 await HandleValidationExceptionAsync(context, ex);
-            }
-            catch (KeyNotFoundException ex)
+            }            
+            catch (Exception ex)
             {
-                await HandleKeyNotFoundExceptionAsync(context, ex);
-            }
-            catch (DomainException ex)
-            {
-                await HandleDomainExceptionAsync(context, ex);
+                await HandleGenericExceptionAsync(context, ex);
             }
         }
 
@@ -53,28 +49,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Middleware
             };
 
             return context.Response.WriteAsync(JsonSerializer.Serialize(response, jsonOptions));
-        }
+        }        
 
-        private static Task HandleKeyNotFoundExceptionAsync(HttpContext context, KeyNotFoundException exception)
-        {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized; // or StatusCodes.Status403Forbidden
-
-            var response = new ApiResponse
-            {
-                Success = false,
-                Message = exception.Message
-            };
-
-            var jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-
-            return context.Response.WriteAsync(JsonSerializer.Serialize(response, jsonOptions));
-        }
-
-        private static Task HandleDomainExceptionAsync(HttpContext context, DomainException exception)
+        private static Task HandleGenericExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status400BadRequest;

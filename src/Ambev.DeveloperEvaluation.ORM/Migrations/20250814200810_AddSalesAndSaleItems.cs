@@ -52,7 +52,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "numeric(18,2)", nullable: false, defaultValue: 0m),
-                    TotalAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     SaleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

@@ -19,8 +19,8 @@ public static class ListSaleHandlerTestData
             .RuleFor(x => x.SaleNumber, f => f.Commerce.Ean13())
             .RuleFor(x => x.Branch, f => f.Company.CompanyName())
             .RuleFor(x => x.CustomerName, f => f.Person.FullName)
-            .RuleFor(x => x.InitialDate, f => f.Date.Past(1))
-            .RuleFor(x => x.EndDate, (f, x) => f.Date.Between(x.InitialDate, DateTime.UtcNow))
+            .RuleFor(x => x.InitialDate, f => (DateTime?)f.Date.Past(1))
+            .RuleFor(x => x.EndDate, (f, x) => (DateTime?)f.Date.Between(x.InitialDate ?? DateTime.UtcNow.AddYears(-1), DateTime.UtcNow))
             .RuleFor(x => x.Page, f => f.Random.Int(1, 50))
             .RuleFor(x => x.Size, f => f.Random.Int(1, 100))
             .RuleFor(x => x.Order, f => "customerName desc, saleDate asc");

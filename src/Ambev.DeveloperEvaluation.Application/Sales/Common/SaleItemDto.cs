@@ -24,4 +24,9 @@ public class SaleItemDto
     /// Gets or sets the unit price of the product in this sale item.
     /// </summary>
     public decimal UnitPrice { get; set; }
+
+    /// <summary>
+    /// Gets or sets the total price of the product in this sale item.
+    /// </summary>
+    public decimal TotalPrice { get; set; }
 }
