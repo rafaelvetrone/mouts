@@ -56,11 +56,27 @@ To view Kafka, go to  localhost:8085
 
 ### Test results
 
+Create Sale
+
 ![Screenshot 1](testData/Sales_1_Created.PNG)
+
+Kafka Created
 ![Screenshot 2](testData/Sales_2_Kafka_Created.PNG)
+
+Get Sale
 ![Screenshot 3](testData/Sales_3_Get.PNG)
+
+Update Sale
 ![Screenshot 4](testData/Sales_4_Updated.PNG)
+
+Update Cancel
 ![Screenshot 5](testData/Sales_5_Get_Updated_Cancelled.PNG)
-![Screenshot 6](testData/Sales_6_Kafka_Cancelled.PNG)
+
+Kafka Cancelled
+![Screenshot 6](testData/Sales_6_KAfka_Cancelled.PNG)
+
+Deleted
 ![Screenshot 7](testData/Sales_7_Deleted.PNG)
+
+Deleted (deleting also cancels)
 ![Screenshot 8](testData/Sales_8_Kafka_Deleted_Cancelled.PNG)
